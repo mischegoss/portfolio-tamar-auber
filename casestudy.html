@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Case Study: Building a Documentation Chatbot That Actually Works — Tamar
+      Auber
+    </title>
+    <meta
+      name="description"
+      content="How I shipped a production RAG system that cut support tickets by 30% — and what it took to get there."
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --cerulean: #0f2143;
+        --olive: #43572e;
+        --pacific: #354e56;
+        --gold: #8b6212;
+        --gold-light: #b07e18;
+        --rust: #7a3b1e;
+        --plum: #4a2d5a;
+        --teal: #1e4d4a;
+        --bg: #f5f3ee;
+        --surface: #ffffff;
+        --text: #1a1a1a;
+        --text-mid: #3d3d3d;
+        --text-soft: #5c5c5c;
+        --rule: #d9d5cc;
+      }
+
+      html {
+        font-size: 16px;
+      }
+
+      body {
+        font-family: Georgia, 'Times New Roman', serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        min-height: 100vh;
+        padding: 0 24px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -999px;
+        left: 16px;
+        background: var(--cerulean);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-decoration: none;
+        z-index: 100;
+      }
+      .skip-link:focus {
+        top: 16px;
+      }
+
+      .page {
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 72px 0 80px;
+      }
+
+      /* ── Header ── */
+      .header {
+        margin-bottom: 48px;
+        border-bottom: 2px solid var(--teal);
+        padding-bottom: 28px;
+      }
+
+      .back-link {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--gold);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid transparent;
+        padding-bottom: 1px;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+      }
+      .back-link:hover {
+        color: var(--gold-light);
+        border-bottom-color: var(--gold-light);
+      }
+
+      .header-label {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      .header h1 {
+        font-size: clamp(24px, 3.5vw, 36px);
+        font-weight: 700;
+        color: var(--cerulean);
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+
+      .header-sub {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 15px;
+        color: var(--text-soft);
+        font-style: italic;
+        margin-bottom: 28px;
+      }
+
+      /* ── Meta strip ── */
+      .meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+
+      .meta-item {
+        flex: 1 1 160px;
+        padding: 14px 20px;
+        border-right: 1px solid var(--rule);
+      }
+      .meta-item:last-child {
+        border-right: none;
+      }
+
+      .meta-label {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .meta-value {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      /* ── Body content ── */
+      .content {
+        margin-top: 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .section-label {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .content h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--cerulean);
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+        margin-bottom: 14px;
+      }
+
+      .content p {
+        font-size: 15.5px;
+        color: var(--text-mid);
+        line-height: 1.8;
+        margin-bottom: 14px;
+      }
+      .content p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ── Callout block ── */
+      .callout {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-left: 4px solid var(--teal);
+        border-radius: 0 4px 4px 0;
+        padding: 20px 24px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 14px;
+        font-style: italic;
+        color: var(--text-mid);
+        line-height: 1.7;
+      }
+
+      /* ── Outcomes ── */
+      .outcomes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .outcome-card {
+        flex: 1 1 180px;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-top: 4px solid var(--teal);
+        border-radius: 4px;
+        padding: 20px 22px;
+        text-align: center;
+      }
+
+      .outcome-stat {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--teal);
+        letter-spacing: -0.02em;
+        display: block;
+        line-height: 1.1;
+        margin-bottom: 6px;
+      }
+
+      .outcome-desc {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 12.5px;
+        color: var(--text-soft);
+        line-height: 1.4;
+      }
+
+      /* ── Closing line ── */
+      .closing {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-left: 4px solid var(--cerulean);
+        border-radius: 0 4px 4px 0;
+        padding: 22px 26px;
+        font-size: 15.5px;
+        font-style: italic;
+        color: var(--text-mid);
+        line-height: 1.75;
+      }
+
+      /* ── Footer ── */
+      footer {
+        margin-top: 52px;
+        padding-top: 20px;
+        border-top: 1px solid var(--rule);
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 12px;
+        color: var(--text-soft);
+      }
+
+      @media (max-width: 600px) {
+        .meta-item {
+          border-right: none;
+          border-bottom: 1px solid var(--rule);
+        }
+        .meta-item:last-child {
+          border-bottom: none;
+        }
+        .page {
+          padding: 48px 0 64px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <main id="main">
+      <div class="page">
+        <header class="header">
+          <a class="back-link" href="./index.html"> ← Portfolio </a>
+          <span class="header-label">Case Study</span>
+          <h1>Building a Documentation Chatbot That Actually Works</h1>
+          <p class="header-sub">
+            How I shipped a production RAG system that cut support tickets by
+            30% — and what it took to get there.
+          </p>
+
+          <div class="meta-strip">
+            <div class="meta-item">
+              <span class="meta-label">Role</span>
+              <span class="meta-value">Technical Writer &amp; DocOps</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Stack</span>
+              <span class="meta-value"
+                >Python · Google Cloud · Zendesk API · React</span
+              >
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Scope</span>
+              <span class="meta-value"
+                >Most trafficked documentation site — highest support ticket
+                volume across all products</span
+              >
+            </div>
+          </div>
+        </header>
+
+        <div class="content">
+          <section>
+            <span class="section-label">The Problem</span>
+            <p>
+              Enterprise documentation at scale creates a self-service gap.
+              Users have questions. The answers exist somewhere in the docs. But
+              <em>somewhere</em> isn't good enough when you're trying to resolve
+              an incident at 2am or onboard a new customer fast.
+            </p>
+            <p>
+              Support tickets were the symptom. Users were turning to the
+              support team to find answers that existed in the docs — increasing
+              the burden on support staff and pushing resolution times out by
+              days. The previous solution made it worse: a general-purpose
+              chatbot purchased from the vendor struggled with deeply nested
+              documentation and highly technical language, producing misleading
+              or outright hallucinated answers at a
+              <strong>27% fail rate</strong> — even on simple requests. It also
+              had no way to surface the richer step-by-step content in the
+              support knowledge base, leaving a significant portion of available
+              answers unreachable.
+            </p>
+          </section>
+
+          <section>
+            <span class="section-label">The Constraint That Mattered</span>
+            <p>
+              A general-purpose chatbot wasn't the answer. The risk of
+              hallucination — a confident, plausible, wrong answer — is higher
+              in enterprise IT automation than in most domains. A user following
+              bad instructions can break a production workflow.
+            </p>
+            <p>
+              <strong>Design requirement:</strong> Every answer had to be
+              grounded strictly in versioned product documentation. No
+              improvisation. No answers from outside the knowledge base.
+            </p>
+          </section>
+
+          <section>
+            <span class="section-label">The Approach</span>
+            <p>
+              This was the second generation of the chatbot — and the first
+              built from scratch. The original vendor solution never performed
+              well enough to be reliable, so I spent time iterating on and
+              improving it across four product lines before ultimately replacing
+              it entirely. When the vendor solution was retired, I rebuilt from
+              the ground up in Python on Google Cloud. Three custom-built
+              replacements are currently in production; seven total have shipped
+              across the full lifecycle.
+            </p>
+            <p>
+              The custom solution uses a RAG (retrieval-augmented generation)
+              architecture — retrieving answers from the actual docs before
+              generating a response, then surfacing inline source citations so
+              users can verify exactly where the answer came from and navigate
+              directly to the relevant page.
+            </p>
+            <p>
+              For deeper troubleshooting, the chatbot integrates with the
+              Zendesk API to search support articles — version-aware, so a user
+              on version 8.0 gets results tied to their version, not a newer
+              release that might not apply.
+            </p>
+          </section>
+
+          <section>
+            <span class="section-label">Making It Reliable</span>
+            <p>
+              Shipping it was one problem. Trusting it was another. I ran
+              adversarial testing to surface failure patterns — edge cases,
+              prompt gaps, and retrieval failures — before users could find them
+              first. I also implemented a thumbs up/down feedback loop so real
+              usage data could drive continuous refinement after launch.
+            </p>
+            <div class="callout">
+              On adversarial testing: The goal wasn't to make the chatbot look
+              good in demos. It was to find out where it would fail in
+              production — and fix it before anyone noticed.
+            </div>
+          </section>
+
+          <section>
+            <span class="section-label">The Outcome</span>
+            <div class="outcomes">
+              <div class="outcome-card">
+                <span class="outcome-stat">30%</span>
+                <span class="outcome-desc"
+                  >Reduction in support tickets after launch</span
+                >
+              </div>
+              <div class="outcome-card">
+                <span class="outcome-stat">27% → &lt;9%</span>
+                <span class="outcome-desc"
+                  >Fail rate improvement — support team also reported faster
+                  knowledge retrieval and higher-quality answers</span
+                >
+              </div>
+              <div class="outcome-card">
+                <span class="outcome-stat">7 / 3</span>
+                <span class="outcome-desc"
+                  >Chatbots shipped total — 3 custom-built replacements
+                  currently in production</span
+                >
+              </div>
+              <div class="outcome-card">
+                <span class="outcome-stat">92%</span>
+                <span class="outcome-desc"
+                  >Increase in chatbot usage after launch — nearly double the
+                  prior baseline</span
+                >
+              </div>
+            </div>
+          </section>
+
+          <div class="closing">
+            Shipping AI-powered documentation tooling isn't just a writing
+            problem or just an engineering problem. It sits at the intersection
+            — and that's exactly where I work.
+          </div>
+        </div>
+
+        <footer>Technical Writing Portfolio — Tamar Auber</footer>
+      </div>
+    </main>
+  </body>
+</html>
