@@ -344,50 +344,56 @@
               Enterprise documentation at scale creates a self-service gap.
               Users have questions. The answers exist somewhere in the docs. But
               <em>somewhere</em> isn't good enough when you're trying to resolve
-              an incident at 2am or onboard a new customer fast.
+              a critical issue or find a solution fast.
             </p>
             <p>
-              Support tickets were the symptom. Users were turning to the
-              support team to find answers that existed in the docs — increasing
-              the burden on support staff and pushing resolution times out by
-              days. The previous solution made it worse: a general-purpose
-              chatbot purchased from the vendor struggled with deeply nested
+              As a result, users were turning to the support team to find
+              answers that existed in the docs. This increased the burden on
+              support staff and pushed resolution times out, sometimes by days.
+              The out of the box solution made it worse: a general-purpose
+              chatbot purchased from a vendor struggled with deeply nested
               documentation and highly technical language, producing misleading
               or outright hallucinated answers at a
-              <strong>27% fail rate</strong> — even on simple requests. It also
-              had no way to surface the richer step-by-step content in the
-              support knowledge base, leaving a significant portion of available
-              answers unreachable.
+              <strong>27% fail rate</strong> — even on simple requests. The
+              vendor also had no way to surface the richer step-by-step content
+              in the support knowledge base, leaving a significant portion of
+              available answers unreachable, except by contacting support.
             </p>
           </section>
 
           <section>
             <span class="section-label">The Constraint That Mattered</span>
             <p>
-              A general-purpose chatbot wasn't the answer. The risk of
-              hallucination — a confident, plausible, wrong answer — is higher
-              in enterprise IT automation than in most domains. A user following
-              bad instructions can break a production workflow.
+              It was clear that a general-purpose chatbot wasn't the answer. The
+              consequence of a hallucination — a confident, plausible, wrong
+              answer — can be dire when documentation is aimed at IT
+              professionals working on enterprise systems. A user following bad
+              instructions can break a production workflow, and set them back
+              for days.
             </p>
             <p>
               <strong>Design requirement:</strong> Every answer had to be
               grounded strictly in versioned product documentation. No
-              improvisation. No answers from outside the knowledge base.
+              improvisation. No answers from outside the knowledge base. The bot
+              needed to be grounded in the actual docs.
             </p>
           </section>
 
           <section>
             <span class="section-label">The Approach</span>
             <p>
-              This was the second generation of the chatbot — and the first
-              built from scratch. The original vendor solution never performed
-              well enough to be reliable, so I spent time iterating on and
-              improving it across four product lines before ultimately replacing
-              it entirely. When the vendor solution was retired, I rebuilt it
-              independently from the ground up in Python on Google Cloud,
-              drawing on experience building AI solutions outside of work. Three
-              custom-built bots are currently in production; seven total have
-              shipped across the full lifecycle.
+              This was the second generation of the chatbot. The original vendor
+              solution never performed well enough to be reliable, so I spent
+              time iterating on and improving it across four product lines to
+              try and improve functionality before ultimately replacing it
+              entirely. This failed experiment gave me crucial insights into the
+              limitations of the current model and the features the users
+              actually needed to get the job done. Then, I rebuilt the chatbots
+              from the ground up in Python on Google Cloud, drawing on
+              experience building AI solutions for hackathons and the need for
+              strong testing. As a result, three custom-built bots are currently
+              in production; seven total, including the modified vendor
+              versions, have shipped across the full lifecycle.
             </p>
             <p>
               The custom solution uses a RAG (retrieval-augmented generation)
@@ -411,13 +417,8 @@
               adversarial testing to surface failure patterns — edge cases,
               prompt gaps, and retrieval failures — before users could find them
               first. I also implemented a thumbs up/down feedback loop so real
-              usage data could drive continuous refinement after launch.
+              usage data could drive continuous improvements after launch.
             </p>
-            <div class="callout">
-              On adversarial testing: The goal wasn't to make the chatbot look
-              good in demos. It was to find out where it would fail in
-              production — and fix it before anyone noticed.
-            </div>
           </section>
 
           <section>
