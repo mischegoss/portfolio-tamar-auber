@@ -49,7 +49,6 @@
         padding: 0 24px;
       }
 
-      /* ── Top nav ── */
       .topnav {
         max-width: 1080px;
         margin: 0 auto;
@@ -82,7 +81,6 @@
         color: var(--text-soft);
       }
 
-      /* ── Page layout ── */
       .page {
         max-width: 1080px;
         margin: 0 auto;
@@ -93,7 +91,6 @@
         align-items: start;
       }
 
-      /* ── Sidebar TOC ── */
       .toc {
         position: sticky;
         top: 32px;
@@ -140,15 +137,9 @@
         margin-top: 14px;
         font-size: 13px;
       }
-      .toc-list li.toc-section:first-child > a {
-        margin-top: 0;
-      }
-      .toc-sub a {
-        font-size: 12px !important;
-        padding-left: 18px !important;
-      }
+      .toc-list li.toc-section:first-child > a { margin-top: 0; }
+      .toc-sub a { font-size: 12px !important; padding-left: 18px !important; }
 
-      /* ── Main content ── */
       .content { min-width: 0; }
 
       .page-header {
@@ -185,7 +176,6 @@
         line-height: 1.65;
       }
 
-      /* Portfolio note */
       .portfolio-note {
         background: var(--warn-bg);
         border-left: 3px solid var(--warn-border);
@@ -199,17 +189,12 @@
       }
       .portfolio-note strong { color: var(--rust); }
 
-      /* ── Sample sections ── */
       .sample {
         margin-bottom: 72px;
         padding-bottom: 64px;
         border-bottom: 1px solid var(--rule);
       }
-      .sample:last-of-type {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
+      .sample:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
       .sample-label {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -241,7 +226,6 @@
         line-height: 1.6;
       }
 
-      /* Doc body typography */
       .doc h3 {
         font-size: 17px;
         font-weight: 700;
@@ -282,7 +266,6 @@
       }
       .doc li strong { color: var(--text); }
 
-      /* Numbered steps */
       .doc ol.steps { counter-reset: steps; list-style: none; margin-left: 0; }
       .doc ol.steps li {
         counter-increment: steps;
@@ -310,7 +293,6 @@
         justify-content: center;
       }
 
-      /* Inline code */
       code {
         font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         font-size: 13px;
@@ -321,7 +303,6 @@
         white-space: nowrap;
       }
 
-      /* Callouts */
       .callout {
         border-radius: 0 4px 4px 0;
         padding: 14px 18px;
@@ -337,7 +318,6 @@
       .callout-check { background: var(--check-bg); border-left: 3px solid var(--check-border); color: var(--text-mid); }
       .callout-icon { font-style: normal; margin-right: 6px; }
 
-      /* Checkpoints */
       .checkpoint {
         background: var(--check-bg);
         border: 1px solid var(--check-border);
@@ -353,7 +333,6 @@
       }
       .checkpoint::before { content: "✓"; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 
-      /* Tables */
       .doc table {
         width: 100%;
         border-collapse: collapse;
@@ -381,7 +360,6 @@
       .doc tr:nth-child(even) td { background: var(--surface-2); }
       .doc td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
 
-      /* Troubleshooting */
       .trouble-item {
         border: 1px solid var(--rule);
         border-radius: 4px;
@@ -415,7 +393,6 @@
         margin-left: 8px;
       }
 
-      /* Doc meta strip */
       .doc-meta {
         display: flex;
         align-items: center;
@@ -435,7 +412,6 @@
       }
       .doc-meta-item span { color: var(--text-mid); font-weight: 600; }
 
-      /* Prerequisites */
       .prereq-list {
         background: var(--surface);
         border: 1px solid var(--rule);
@@ -457,7 +433,6 @@
       .prereq-list li:last-child { border-bottom: none; }
       .prereq-list li::before { content: "→"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
 
-      /* Footer */
       footer {
         max-width: 1080px;
         margin: 52px auto 0;
@@ -489,7 +464,6 @@
 
     <div class="page">
 
-      <!-- Sidebar TOC -->
       <aside class="toc" aria-label="Table of contents">
         <p class="toc-heading">Contents</p>
         <ul class="toc-list">
@@ -508,7 +482,6 @@
         </ul>
       </aside>
 
-      <!-- Main content -->
       <main>
 
         <header class="page-header">
@@ -521,7 +494,7 @@
           <strong>⚠ Portfolio Note:</strong> Product names, domain names, and vendor-specific identifiers in these samples have been generalized for portfolio use. The documentation structure, technical depth, and integration patterns reflect original work produced for a client integration project.
         </div>
 
-        <!-- ── THE OVERVIEW ── -->
+        <!-- THE OVERVIEW -->
         <section class="sample" id="overview">
           <span class="sample-label">The Overview</span>
           <h2>ARIA Integration — System Overview</h2>
@@ -534,7 +507,8 @@
               <div class="doc-meta-item">Doc type: <span>Conceptual overview</span></div>
             </div>
 
-            <p><strong>Learning objective:</strong> Understand how the ARIA integration enables conversational workflow automation — including the bidirectional flow of data between systems and the key components that allow users to trigger automated processes through a chat interface.</p>
+            <!-- FIX 1: Learning Objective -->
+            <p><strong>Learning objective:</strong> Understand how ARIA connects a chat interface to a workflow automation platform — so users can trigger backend processes through conversation and get results without leaving their chat window.</p>
 
             <h4>Prerequisites</h4>
             <p>While not required to build or understand the integration, familiarity with the following concepts is helpful:</p>
@@ -546,35 +520,19 @@
             </ul>
             <p>Technical implementation details — including specific field names, values, and step-by-step configuration instructions — are covered in subsequent sections.</p>
 
+            <!-- FIX 2: What This Integration Accomplishes -->
             <h3 id="overview-what">What This Integration Accomplishes</h3>
-            <p>The ARIA integration creates a bidirectional communication channel that connects a conversational AI platform (HelixBot) with a workflow automation platform (FlowEngine). This allows users to trigger complex backend processes through natural language chat, with results delivered directly in their conversation thread.</p>
-            <p>Instead of requiring users to navigate multiple systems or submit web forms, this integration handles the complete request lifecycle within the chat interface — from information collection to result delivery.</p>
+            <p>ARIA connects HelixBot (a conversational AI platform) to FlowEngine (a workflow automation platform). A user types a request in chat, HelixBot collects what it needs, and FlowEngine runs the workflow — all without the user touching another system.</p>
 
             <div class="callout callout-note">
               <p><em class="callout-icon">ℹ</em><strong>Key capability:</strong> Users interact with enterprise systems and workflows using natural language in HelixBot, without leaving the chat window.</p>
             </div>
 
+            <!-- FIX 3: How systems work together -->
             <h3 id="overview-how">How HelixBot and FlowEngine Work Together</h3>
-            <p>The integration operates as a two-way communication pipeline where each system handles distinct responsibilities.</p>
-
-            <h4>HelixBot — The Front End (Information Gathering)</h4>
-            <ul>
-              <li>Understands user requests using natural language and intent prediction</li>
-              <li>Collects required information through conversation, user profile data, and system integrations</li>
-              <li>Translates user inputs into structured payloads that FlowEngine can process</li>
-              <li>Displays workflow results back to the user in the chat</li>
-            </ul>
-
-            <h4>FlowEngine — The Back End (Information Processing)</h4>
-            <ul>
-              <li>Receives structured requests from HelixBot via webhook</li>
-              <li>Executes the workflow (password reset, account lookup, access request, etc.) using the provided data</li>
-              <li>Integrates with enterprise systems or databases as needed</li>
-              <li>Sends results back to HelixBot so the user sees the outcome in their chat</li>
-            </ul>
-
-            <h4>The Connection Point</h4>
-            <p>A webhook acts as the bridge. When a user completes their request in chat, HelixBot packages all the information into a JSON payload and sends it to FlowEngine. FlowEngine processes it and sends the result back through HelixBot's callback API. The user never leaves the chat.</p>
+            <p><strong>HelixBot</strong> is the front end. It interprets what the user is asking, asks any follow-up questions, and packages the user's input into a structured request.</p>
+            <p><strong>FlowEngine</strong> is the back end. It receives that request, runs the workflow, and sends the result back to HelixBot to display in chat.</p>
+            <p>The two systems talk to each other via webhook. HelixBot sends a JSON payload to FlowEngine's API, holds the conversation open, and displays whatever FlowEngine returns. The user sees only the result — the plumbing is invisible.</p>
 
             <h3 id="overview-flow">The Complete Flow</h3>
             <p>Here's what happens when a user types <em>"I need to reset my password"</em>:</p>
@@ -594,10 +552,11 @@
                   <td>Information Gathering</td>
                   <td>HelixBot collects required data through conversation or user profile data. The user answers any prompted questions. These answers become the input parameters sent to FlowEngine.</td>
                 </tr>
+                <!-- FIX 4: Row 3 — outbound mapping script -->
                 <tr>
                   <td>3</td>
                   <td>Data Transformation</td>
-                  <td>HelixBot collects all inputs and conversation context (who is asking, which channel, session identifiers). An outbound mapping script converts this data into the structured format FlowEngine expects.</td>
+                  <td>HelixBot packages all inputs and session context into the JSON format FlowEngine expects. A mapping script handles the translation automatically.</td>
                 </tr>
                 <tr>
                   <td>4</td>
@@ -641,10 +600,10 @@
           </div>
         </section>
 
-        <!-- ── THE PLAYBOOK ── -->
+        <!-- THE PLAYBOOK -->
         <section class="sample" id="playbook">
           <span class="sample-label">The Playbook</span>
-          <h2>Configure the ITSM Platform Reverse Connection</h2>
+          <h2>Configure the ITSM Platform Connection Back to HelixBot</h2>
           <p class="sample-meta">A step-by-step setup guide with a built-in troubleshooting section.</p>
 
           <div class="doc">
@@ -654,12 +613,14 @@
               <div class="doc-meta-item">Estimated time: <span>15–20 minutes</span></div>
             </div>
 
-            <p>This guide configures the reverse connection from the ITSM Platform back to HelixBot. You will work entirely in the ITSM Platform interface using modules installed via the update set in a prior setup step.</p>
+            <!-- FIX 5: Part 2 opening -->
+            <p>At this point, HelixBot can send requests to the ITSM Platform. This guide sets up the other direction — so the ITSM Platform can send data back to HelixBot. You'll work entirely inside the ITSM Platform interface. Before you start, confirm that the prior setup step (committing the Helix update set) is complete.</p>
 
             <h4>Prerequisites</h4>
+            <!-- FIX 6: Prerequisites list -->
             <ul class="prereq-list">
               <li>HelixBot configuration completed</li>
-              <li>Update set committed in the ITSM Platform</li>
+              <li>Helix update set committed in the ITSM Platform</li>
               <li>ITSM integration user password on hand</li>
               <li>HelixBot tenant URL on hand</li>
             </ul>
