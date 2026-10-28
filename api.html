@@ -139,7 +139,7 @@ code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.07
   <div class="page-header" id="intro">
     <div class="eyebrow">API Reference — Portfolio Sample</div>
     <h1>ARIA Integration API Documentation</h1>
-    <p>A collection of three sample technical guides showing how to integrate with core platforms. These samples cover everything a developer needs to get started — from secure authentication and data schemas to troubleshooting errors.</p>
+    <p>A collection of three sample technical guides showing how to integrate with core platforms. Each sample covers authentication, request schemas, example requests, response codes, and troubleshooting.</p>
     <ul class="intro-list">
       <li><strong>FlowEngine:</strong>&nbsp;Setting up webhook triggers.</li>
       <li><strong>HelixBot:</strong>&nbsp;Handling real-time chat callbacks.</li>
@@ -288,7 +288,7 @@ code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.07
             <tr>
               <td><span class="param-name">response.callback_token</span><span class="required-chip">Required</span></td>
               <td><span class="param-type">string</span></td>
-              <td class="param-desc">The HelixBot API key used to authenticate the callback request. Passed as a <code>Token</code> bearer value in the callback's <code>Authorization</code> header.</td>
+              <td class="param-desc">The HelixBot API key used to authenticate the callback request. FlowEngine sends it in the callback's <code>Authorization</code> header using the <code>Token</code> scheme: <code>Token &lt;callback_token&gt;</code>.</td>
             </tr>
             <tr>
               <td><span class="param-name">response.channel_id</span><span class="required-chip">Required</span></td>
@@ -343,7 +343,7 @@ code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.07
         <div class="response-row"><span class="status-code s2xx">200</span><div class="response-text"><div class="response-label">OK</div>Event accepted. FlowEngine processes the workflow asynchronously and POSTs the result back to <code>callback_url</code> on completion.</div></div>
         <div class="response-row"><span class="status-code s4xx">401</span><div class="response-text"><div class="response-label">Unauthorized</div>Invalid or malformed <code>Authorization</code> header. Verify the Base64 token is correct and that there is exactly one space after <code>Basic</code>.</div></div>
         <div class="response-row"><span class="status-code s4xx">404</span><div class="response-text"><div class="response-label">Not Found</div>The <code>tenant_id</code> path parameter does not match any active FlowEngine tenant.</div></div>
-        <div class="response-row"><span class="status-code s5xx">500</span><div class="response-text"><div class="response-label">Server Error</div>The <code>flowname</code> value does not match any workflow in the tenant, or the payload is structurally invalid.</div></div>
+        <div class="response-row"><span class="status-code s5xx">500</span><div class="response-text"><div class="response-label">Server Error</div>The <code>flowname</code> value does not match any workflow in the tenant, or the payload is structurally invalid. FlowEngine returns <code>500</code> rather than a <code>4xx</code> for these request errors, so check the request body before treating a <code>500</code> as a server outage.</div></div>
       </div>
 
       <!-- Notes -->
@@ -490,8 +490,8 @@ code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.07
       <div class="card-section">
         <div class="section-title">Response Codes</div>
         <div class="response-row"><span class="status-code s2xx">200</span><div class="response-text"><div class="response-label">OK</div>Message delivered. The <code>result_msg</code> is displayed in the user's chat window and the suspended conversation step resolves.</div></div>
-        <div class="response-row"><span class="status-code s4xx">401</span><div class="response-text"><div class="response-label">Unauthorized</div>The HelixBot API Key is missing, expired, or uses the wrong authorization scheme. Confirm the header uses <code>Token</code> — not <code>Basic</code>.</div></div>
         <div class="response-row"><span class="status-code s4xx">400</span><div class="response-text"><div class="response-label">Bad Request</div>Malformed JSON body, <code>user_id</code> passed as a quoted string instead of an integer, or <code>channel_id</code> / <code>user_id</code> do not correspond to an open, active conversation.</div></div>
+        <div class="response-row"><span class="status-code s4xx">401</span><div class="response-text"><div class="response-label">Unauthorized</div>The HelixBot API Key is missing, expired, or uses the wrong authorization scheme. Confirm the header uses <code>Token</code> — not <code>Basic</code>.</div></div>
       </div>
 
       <!-- Notes -->
@@ -566,12 +566,17 @@ code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.07
             <tr>
               <td><span class="param-name">sysparm_query</span><span class="required-chip">Required</span></td>
               <td><span class="param-type">string</span></td>
-              <td class="param-desc">An ITSM Platform-encoded filter expression. Build this in the platform's <strong>Organization &gt; Users</strong> table by applying filters, then right-clicking the filter breadcrumb and selecting <em>Copy Query</em>.<span class="param-example">Basic: active=true</span><span class="param-example">Advanced: active=true^departmentLIKEEngineering</span></td>
+              <td class="param-desc">An ITSM Platform-encoded filter expression. Build this in the platform's <strong>Organization &gt; Users</strong> table by applying filters, then right-clicking the filter breadcrumb and selecting <em>Copy Query</em>.<span class="param-note">Optional in the platform API; required for this integration to control which users sync.</span><span class="param-example">Basic: active=true</span><span class="param-example">Advanced: active=true^departmentLIKEEngineering</span></td>
             </tr>
             <tr>
               <td><span class="param-name">sysparm_fields</span><span class="optional-chip">Optional</span></td>
               <td><span class="param-type">string</span></td>
               <td class="param-desc">Comma-separated list of fields to return. Reduces response payload size. If omitted, all fields are returned.<span class="param-example">Example: user_name,email,first_name,last_name,active</span></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">sysparm_display_value</span><span class="optional-chip">Optional</span></td>
+              <td><span class="param-type">string</span></td>
+              <td class="param-desc">Controls the shape of each field in the response. <code>false</code> (default) returns raw values as strings. <code>all</code> returns each field as an object with both <code>display_value</code> and <code>value</code>, as shown in the example response.<span class="param-example">Example: all</span></td>
             </tr>
             <tr>
               <td><span class="param-name">sysparm_limit</span><span class="optional-chip">Optional</span></td>
@@ -594,7 +599,7 @@ code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.07
           <div class="code-header"><span class="code-lang">cURL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
           <pre><span class="c"># Sync all active users from ITSM Platform to HelixBot</span>
 <span class="m">curl</span> -X GET \
-  <span class="u">'https://acmecorp.itsm-platform.com/api/now/table/sys_user?sysparm_query=active%3Dtrue&amp;sysparm_fields=user_name,email,first_name,last_name,active&amp;sysparm_limit=500'</span> \
+  <span class="u">'https://acmecorp.itsm-platform.com/api/now/table/sys_user?sysparm_query=active%3Dtrue&amp;sysparm_fields=user_name,email,first_name,last_name,active&amp;sysparm_display_value=all&amp;sysparm_limit=500'</span> \
   -H <span class="h">'Authorization: Basic aGVsaXguaW50ZWdyYXRpb246c2VjcmV0'</span> \
   -H <span class="h">'Accept: application/json'</span></pre>
         </div>
