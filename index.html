@@ -295,6 +295,18 @@
         transform: translate(2px, -2px);
       }
 
+      .card-note {
+        font-size: 12.5px;
+        color: var(--text-soft);
+        line-height: 1.55;
+        border-left: 2px solid var(--rule);
+        padding-left: 10px;
+        margin: -6px 0 18px;
+      }
+      .card-note a {
+        color: var(--accent);
+      }
+
       /* ── Footer ── */
       footer {
         margin-top: 48px;
@@ -349,7 +361,7 @@
         </p>
         <p>
           <a
-            href="https://www.linkedin.com/in/tamar-auber/"
+            href="https://www.linkedin.com/in/tamarauber/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn profile — opens in a new tab"
@@ -372,7 +384,10 @@
                 I own docs-as-code infrastructure end to end: Docusaurus, Git, CI/CD pipelines, and custom React components. In 2025 I maintained three production sites that served 226k+ user sessions with zero disruptive downtime.
               </li>
               <li>
-                I build and ship AI-powered self-service tools in Python on Google Cloud. I've shipped seven chatbots: four iterative improvements to a vendor solution, then three custom-built RAG replacements now in production. The custom bots reduced support escalations by 30% and cut the fail rate from 27% to under 9%.
+                I build and ship AI-powered self-service tools in Python on Google Cloud. I've shipped seven chatbots: four iterative improvements to a vendor solution, then three custom-built RAG replacements that ran in production. The custom bots reduced support escalations by 30% and cut the fail rate from 27% to under 9%.
+              </li>
+              <li>
+                I test AI output like code: I re-ran test question sets after every chatbot update to catch regressions before release.
               </li>
               <li>
                 I write and maintain API references, integration runbooks, tutorials, and technical guides for engineers, DevOps teams, and developer audiences.
@@ -381,7 +396,13 @@
                 I optimize documentation for both human readers and AI agents, including semantic metadata, content chunking, and retrieval architecture.
               </li>
               <li>
+                I use AI coding agents in my docs workflow, with human review on everything they produce. Ragasaurus opens pull requests for metadata and taxonomy changes that a person approves before merge.
+              </li>
+              <li>
                 I partner with engineering on release cycles so documentation ships alongside the features it covers.
+              </li>
+              <li>
+                I've managed a team of five technical content developers, including concurrent releases, dependencies, and quality standards.
               </li>
             </ul>
           </div>
@@ -390,43 +411,19 @@
         <div class="cards" role="list">
           <!-- Card 1 -->
           <article class="card card-1" role="listitem">
-            <span class="card-num">01 &mdash; Information Architecture</span>
-            <h2>Documentation Ecosystem</h2>
+            <span class="card-num">01 &mdash; API &amp; Technical Reference</span>
+            <h2>API Reference Samples</h2>
             <p>
-              Built 3 docs-as-code sites with Docusaurus, custom React
-              components, and structured navigation. They served 226k+ user
-              sessions with zero disruptive downtime in 2025.
-            </p>
-            <a
-              class="card-link"
-              href="https://help.resolve.io/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View knowledge base — opens in a new tab"
-            >
-              View live production site
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7" />
-                <polyline points="7 7 17 7 17 17" />
-              </svg>
-            </a>
-          </article>
-
-          <!-- Card 2 -->
-          <article class="card card-2" role="listitem">
-            <span class="card-num">02 &mdash; API &amp; Technical Reference</span>
-            <h2>API Documentation Samples</h2>
-            <p>
-              Turned complex automation workflows into hands-on tutorials with
-              REST APIs and sample code, focused on agentic AI ingestion and
-              authentication patterns.
+              API reference for three REST endpoints: authentication schemes,
+              path, header, and body parameters, cURL examples, response codes,
+              and known issues.
             </p>
             <a
               class="card-link"
               href="./api.html"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View API documentation samples — opens in a new tab"
+              aria-label="View API reference samples — opens in a new tab"
             >
               View API samples
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
@@ -436,33 +433,9 @@
             </a>
           </article>
 
-          <!-- Card 3 -->
-          <article class="card card-3" role="listitem">
-            <span class="card-num">03 &mdash; Integration Tutorials</span>
-            <h2>End-to-End Integration Guides</h2>
-            <p>
-              An API integration and workflow runbook for ServiceNow and
-              agentic AI ingestion, written to onboard engineers to new products
-              and integrations.
-            </p>
-            <a
-              class="card-link"
-              href="./tutorial.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View integration tutorial samples — opens in a new tab"
-            >
-              View tutorial samples
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7" />
-                <polyline points="7 7 17 7 17 17" />
-              </svg>
-            </a>
-          </article>
-
-          <!-- Card 4 -->
-          <article class="card card-4" role="listitem">
-            <span class="card-num">04 &mdash; AI Documentation Tooling</span>
+          <!-- Card 2 -->
+          <article class="card card-2" role="listitem">
+            <span class="card-num">02 &mdash; AI Documentation Tooling</span>
             <h2>Ragasaurus: RAG Documentation Enhancement Plugin</h2>
             <p>
               A Docusaurus plugin that uses a 4-agent system to optimize documentation for AI retrieval and agent consumption. Winner: Best Crawler Agent at the 100 Agents Hackathon.
@@ -482,24 +455,35 @@
             </a>
           </article>
 
-          <!-- Card 5 -->
-          <article class="card card-5" role="listitem">
-            <span class="card-num">05 &mdash; AI-Driven Self-Service</span>
-            <h2>Documentation/Support Chatbot</h2>
+          <!-- Card 3 -->
+          <article class="card card-3" role="listitem">
+            <span class="card-num">03 &mdash; Information Architecture</span>
+            <h2>Documentation Ecosystem</h2>
             <p>
-              Shipped 7 AI chatbots in Python on Google Cloud: 4 iterative
-              improvements to a vendor solution, then 3 custom-built RAG
-              replacements now in production. The custom bots cut support
-              escalations by 30% in 2025.
+              Built 3 docs-as-code sites with Docusaurus, custom React
+              components, and structured navigation. They served 226k+ user
+              sessions with zero disruptive downtime in 2025.
             </p>
+            <div class="card-note">
+              Note: The chat assistant still appears on this site but no longer
+              works. See the
+              <a
+                href="https://youtu.be/AHXfQGmsHgc?si=lMcKM797mDnFhcrE"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="chatbot demo video — opens in a new tab"
+                >chatbot demo video</a
+              >
+              for how it worked.
+            </div>
             <a
               class="card-link"
-              href="https://youtu.be/AHXfQGmsHgc?si=lMcKM797mDnFhcrE"
+              href="https://help.resolve.io/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View RANI chatbot live example — opens in a new tab"
+              aria-label="View knowledge base — opens in a new tab"
             >
-              View video of live chatbot demo
+              View live production site
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
@@ -507,9 +491,34 @@
             </a>
           </article>
 
-          <!-- Card 6 -->
-          <article class="card card-6" role="listitem">
-            <span class="card-num">06 &mdash; Case Study</span>
+          <!-- Card 4 -->
+          <article class="card card-4" role="listitem">
+            <span class="card-num">04 &mdash; AI-Driven Self-Service</span>
+            <h2>Documentation/Support Chatbot</h2>
+            <p>
+              Shipped 7 AI chatbots in Python on Google Cloud: 4 iterative
+              improvements to a vendor solution, then 3 custom-built RAG
+              replacements that ran in production. The custom bots cut support
+              escalations by 30% in 2025.
+            </p>
+            <a
+              class="card-link"
+              href="https://youtu.be/AHXfQGmsHgc?si=lMcKM797mDnFhcrE"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View chatbot demo video — opens in a new tab"
+            >
+              View chatbot demo video
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="card card-5" role="listitem">
+            <span class="card-num">05 &mdash; Case Study</span>
             <h2>Case Study: AI-Powered Self-Service</h2>
             <p>
               How I built a production RAG system grounded in versioned docs,
@@ -524,6 +533,30 @@
               aria-label="Read the case study — opens in a new tab"
             >
               Read the case study
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="card card-6" role="listitem">
+            <span class="card-num">06 &mdash; Integration Tutorials</span>
+            <h2>End-to-End Integration Guides</h2>
+            <p>
+              A conceptual overview and step-by-step setup guide for a
+              chatbot-to-workflow integration, with troubleshooting organized by
+              cause.
+            </p>
+            <a
+              class="card-link"
+              href="./tutorial.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View integration tutorial samples — opens in a new tab"
+            >
+              View tutorial samples
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
