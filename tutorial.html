@@ -8,6 +8,12 @@
       name="description"
       content="The Integration Map — integration tutorials by Tamar Auber."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
       *, *::before, *::after {
         box-sizing: border-box;
@@ -16,38 +22,82 @@
       }
 
       :root {
-        --cerulean: #0f2143;
-        --olive: #43572e;
-        --pacific: #354e56;
-        --gold: #8b6212;
-        --gold-light: #b07e18;
-        --rust: #7a3b1e;
-        --bg: #f5f3ee;
+        --bg: #fafafa;
         --surface: #ffffff;
-        --surface-2: #f9f8f5;
-        --text: #1a1a1a;
-        --text-mid: #3d3d3d;
-        --text-soft: #5c5c5c;
-        --rule: #d9d5cc;
-        --rule-light: #ece9e3;
-        --code-bg: #f0ede6;
-        --note-bg: #fdf8ed;
-        --note-border: #c89a2a;
-        --warn-bg: #fdf3ee;
-        --warn-border: #c0622a;
-        --check-bg: #f1f5ee;
-        --check-border: #5a7a3a;
+        --surface-2: #f8fafc;
+        --text: #0f172a;
+        --text-mid: #334155;
+        --text-soft: #64748b;
+        --rule: #e2e8f0;
+        --accent: #2563eb;
+        --chip-bg: #f1f5f9;
+        --code-bg: #f1f5f9;
+        --code-text: #0f172a;
+        --note-bg: #eff6ff;
+        --note-border: #2563eb;
+        --warn-bg: #fffbeb;
+        --warn-border: #d97706;
+        --check-bg: #f0fdf4;
+        --check-border: #16a34a;
+        --check-text: #166534;
+        --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0f17;
+          --surface: #111827;
+          --surface-2: #0f172a;
+          --text: #e5e7eb;
+          --text-mid: #cbd5e1;
+          --text-soft: #94a3b8;
+          --rule: #1f2937;
+          --accent: #60a5fa;
+          --chip-bg: #1f2937;
+          --code-bg: #1f2937;
+          --code-text: #e5e7eb;
+          --note-bg: rgba(96, 165, 250, 0.08);
+          --note-border: #60a5fa;
+          --warn-bg: rgba(245, 158, 11, 0.08);
+          --warn-border: #f59e0b;
+          --check-bg: rgba(34, 197, 94, 0.08);
+          --check-border: #22c55e;
+          --check-text: #86efac;
+        }
       }
 
       html { font-size: 16px; scroll-behavior: smooth; }
 
       body {
-        font-family: Georgia, 'Times New Roman', serif;
+        font-family: var(--sans);
         background: var(--bg);
         color: var(--text);
-        line-height: 1.75;
+        line-height: 1.65;
         padding: 0 24px;
+        -webkit-font-smoothing: antialiased;
       }
+
+      a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -999px;
+        left: 16px;
+        background: var(--accent);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-family: var(--mono);
+        font-size: 13px;
+        text-decoration: none;
+        z-index: 100;
+      }
+      .skip-link:focus { top: 16px; }
 
       .topnav {
         max-width: 1080px;
@@ -56,29 +106,31 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 16px;
         border-bottom: 1px solid var(--rule);
       }
 
       .back-link {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: var(--mono);
         font-size: 13px;
-        font-weight: 600;
-        color: var(--gold);
+        font-weight: 500;
+        color: var(--text-soft);
         text-decoration: none;
         display: inline-flex;
         align-items: center;
         gap: 6px;
         transition: color 0.15s;
       }
-      .back-link:hover { color: var(--gold-light); }
+      .back-link:hover { color: var(--accent); }
 
       .nav-label {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        font-weight: 500;
         color: var(--text-soft);
+        background: var(--chip-bg);
+        border-radius: 4px;
+        padding: 3px 8px;
       }
 
       .page {
@@ -87,7 +139,7 @@
         padding: 56px 0 96px;
         display: grid;
         grid-template-columns: 220px 1fr;
-        gap: 0 60px;
+        gap: 0 56px;
         align-items: start;
       }
 
@@ -99,14 +151,13 @@
       }
 
       .toc-heading {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 500;
         color: var(--text-soft);
         margin-bottom: 14px;
       }
+      .toc-heading::before { content: '// '; color: var(--accent); }
 
       .toc-list {
         list-style: none;
@@ -116,7 +167,6 @@
       }
 
       .toc-list li a {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         font-size: 13px;
         color: var(--text-soft);
         text-decoration: none;
@@ -127,67 +177,63 @@
         line-height: 1.4;
       }
       .toc-list li a:hover {
-        color: var(--cerulean);
-        border-left-color: var(--gold);
+        color: var(--accent);
+        border-left-color: var(--accent);
       }
 
       .toc-list li.toc-section > a {
-        font-weight: 700;
+        font-weight: 600;
         color: var(--text-mid);
         margin-top: 14px;
-        font-size: 13px;
       }
       .toc-list li.toc-section:first-child > a { margin-top: 0; }
-      .toc-sub a { font-size: 12px !important; padding-left: 18px !important; }
+      .toc-sub a { font-size: 12.5px !important; padding-left: 18px !important; }
 
-      .content { min-width: 0; }
+      main { min-width: 0; }
 
       .page-header {
-        margin-bottom: 44px;
+        margin-bottom: 36px;
         padding-bottom: 28px;
-        border-bottom: 2px solid var(--cerulean);
+        border-bottom: 1px solid var(--rule);
       }
 
       .page-eyebrow {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 10px;
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--accent);
+        margin-bottom: 14px;
         display: block;
       }
+      .page-eyebrow::before { content: '$ '; color: var(--text-soft); }
 
       .page-header h1 {
-        font-size: clamp(24px, 3vw, 34px);
+        font-size: clamp(26px, 3.5vw, 36px);
         font-weight: 700;
-        color: var(--cerulean);
-        letter-spacing: -0.02em;
+        color: var(--text);
+        letter-spacing: -0.03em;
         line-height: 1.2;
         margin-bottom: 12px;
       }
 
       .page-header p {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 14.5px;
-        color: var(--text-soft);
-        max-width: 580px;
+        font-size: 16px;
+        color: var(--text-mid);
+        max-width: 620px;
         line-height: 1.65;
       }
 
       .portfolio-note {
         background: var(--warn-bg);
         border-left: 3px solid var(--warn-border);
-        border-radius: 0 4px 4px 0;
+        border-radius: 0 8px 8px 0;
         padding: 14px 18px;
         margin-bottom: 52px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13px;
+        font-size: 13.5px;
         color: var(--text-mid);
         line-height: 1.6;
       }
-      .portfolio-note strong { color: var(--rust); }
+      .portfolio-note strong { color: var(--text); }
 
       .sample {
         margin-bottom: 72px;
@@ -197,52 +243,50 @@
       .sample:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
       .sample-label {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 10.5px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 8px;
-        display: block;
+        align-self: flex-start;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        font-weight: 500;
+        color: var(--text-soft);
+        background: var(--chip-bg);
+        border-radius: 4px;
+        padding: 3px 8px;
+        margin-bottom: 12px;
+        display: inline-block;
       }
 
       .sample h2 {
         font-size: 24px;
         font-weight: 700;
-        color: var(--cerulean);
-        letter-spacing: -0.015em;
+        color: var(--text);
+        letter-spacing: -0.02em;
         margin-bottom: 6px;
-        line-height: 1.2;
+        line-height: 1.25;
       }
 
       .sample-meta {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13.5px;
+        font-size: 14.5px;
         color: var(--text-soft);
-        margin-bottom: 28px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--rule-light);
+        margin-bottom: 24px;
         line-height: 1.6;
       }
 
       .doc h3 {
-        font-size: 17px;
-        font-weight: 700;
-        color: var(--cerulean);
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
         letter-spacing: -0.01em;
         margin: 36px 0 10px;
-        line-height: 1.3;
+        line-height: 1.35;
+        scroll-margin-top: 24px;
       }
       .doc h3:first-child { margin-top: 0; }
 
       .doc h4 {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--text-mid);
+        font-family: var(--mono);
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--text-soft);
         margin: 28px 0 8px;
       }
       .doc h4:first-child { margin-top: 0; }
@@ -254,17 +298,15 @@
         line-height: 1.75;
       }
 
-      .doc strong { color: var(--text); font-weight: 700; }
+      .doc strong { color: var(--text); font-weight: 600; }
 
       .doc ul, .doc ol { margin: 4px 0 16px 22px; }
       .doc li {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 14.5px;
+        font-size: 15px;
         color: var(--text-mid);
         margin-bottom: 6px;
         line-height: 1.65;
       }
-      .doc li strong { color: var(--text); }
 
       .doc ol.steps { counter-reset: steps; list-style: none; margin-left: 0; }
       .doc ol.steps li {
@@ -272,8 +314,6 @@
         padding-left: 38px;
         position: relative;
         margin-bottom: 10px;
-        font-size: 14.5px;
-        line-height: 1.65;
       }
       .doc ol.steps li::before {
         content: counter(steps);
@@ -282,36 +322,36 @@
         top: 1px;
         width: 24px;
         height: 24px;
-        background: var(--cerulean);
-        color: #fff;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        border-radius: 50%;
+        background: var(--chip-bg);
+        border: 1px solid var(--rule);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 11.5px;
+        font-weight: 600;
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
 
       code {
-        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        font-family: var(--mono);
         font-size: 13px;
         background: var(--code-bg);
-        color: var(--pacific);
+        color: var(--code-text);
         padding: 1px 6px;
-        border-radius: 3px;
-        white-space: nowrap;
+        border-radius: 4px;
+        overflow-wrap: anywhere;
       }
 
       .callout {
-        border-radius: 0 4px 4px 0;
+        border-radius: 0 8px 8px 0;
         padding: 14px 18px;
         margin: 20px 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13.5px;
+        font-size: 14px;
         line-height: 1.65;
       }
-      .callout p { font-family: inherit; font-size: inherit; margin-bottom: 0; color: inherit; }
+      .callout p { font-size: inherit; margin-bottom: 0; color: inherit; }
       .callout p + p { margin-top: 8px; }
       .callout-warn { background: var(--warn-bg); border-left: 3px solid var(--warn-border); color: var(--text-mid); }
       .callout-note { background: var(--note-bg); border-left: 3px solid var(--note-border); color: var(--text-mid); }
@@ -321,124 +361,128 @@
       .checkpoint {
         background: var(--check-bg);
         border: 1px solid var(--check-border);
-        border-radius: 4px;
+        border-radius: 8px;
         padding: 12px 16px;
         margin: 16px 0 24px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13.5px;
-        color: var(--olive);
+        font-size: 14px;
+        color: var(--check-text);
         display: flex;
         align-items: flex-start;
         gap: 8px;
       }
-      .checkpoint::before { content: "✓"; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+      .checkpoint::before { content: "✓"; font-weight: 700; flex-shrink: 0; }
+      .checkpoint strong { color: inherit; }
 
       .doc table {
         width: 100%;
         border-collapse: collapse;
         margin: 20px 0 24px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13.5px;
+        font-size: 14px;
+        border: 1px solid var(--rule);
       }
       .doc th {
-        background: var(--cerulean);
-        color: #fff;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
+        background: var(--surface-2);
+        color: var(--text-soft);
+        font-family: var(--mono);
+        font-size: 11.5px;
+        font-weight: 500;
         padding: 10px 14px;
         text-align: left;
+        border-bottom: 1px solid var(--rule);
       }
       .doc td {
         padding: 10px 14px;
-        border-bottom: 1px solid var(--rule-light);
+        border-bottom: 1px solid var(--rule);
         color: var(--text-mid);
         vertical-align: top;
         line-height: 1.55;
+        background: var(--surface);
       }
-      .doc tr:nth-child(even) td { background: var(--surface-2); }
       .doc td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
 
       .trouble-item {
         border: 1px solid var(--rule);
-        border-radius: 4px;
+        border-radius: 8px;
         margin-bottom: 14px;
         overflow: hidden;
+        background: var(--surface);
       }
       .trouble-cause {
         background: var(--surface-2);
         padding: 12px 16px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 14px;
-        font-weight: 700;
+        font-size: 14.5px;
+        font-weight: 600;
         color: var(--text);
-        border-bottom: 1px solid var(--rule-light);
+        border-bottom: 1px solid var(--rule);
       }
       .trouble-body {
         padding: 14px 16px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13.5px;
+        font-size: 14px;
         color: var(--text-mid);
         line-height: 1.65;
       }
-      .trouble-body p { margin-bottom: 6px; font-size: 13.5px; font-family: inherit; color: inherit; }
+      .trouble-body p { margin-bottom: 6px; font-size: 14px; color: inherit; }
       .trouble-body ul { margin: 6px 0 0 18px; }
-      .trouble-body li { font-size: 13.5px; margin-bottom: 4px; line-height: 1.6; }
+      .trouble-body li { font-size: 14px; margin-bottom: 4px; line-height: 1.6; }
       .cause-tag {
-        font-size: 11.5px;
+        display: block;
+        font-family: var(--mono);
+        font-size: 12px;
         font-weight: 400;
         color: var(--text-soft);
-        font-style: italic;
-        margin-left: 8px;
+        margin-top: 2px;
       }
 
       .doc-meta {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 8px;
         margin-bottom: 28px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--rule-light);
         flex-wrap: wrap;
       }
       .doc-meta-item {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 12.5px;
+        font-family: var(--mono);
+        font-size: 12px;
         color: var(--text-soft);
-        display: flex;
-        align-items: center;
-        gap: 5px;
+        background: var(--chip-bg);
+        border-radius: 4px;
+        padding: 3px 8px;
       }
-      .doc-meta-item span { color: var(--text-mid); font-weight: 600; }
+      .doc-meta-item span { color: var(--text); font-weight: 500; }
 
       .prereq-list {
         background: var(--surface);
         border: 1px solid var(--rule);
-        border-radius: 4px;
-        padding: 18px 20px;
-        margin: 8px 0 24px;
+        border-radius: 8px;
+        padding: 14px 20px;
+        margin: 8px 0 24px !important;
         list-style: none;
       }
       .prereq-list li {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 14px;
+        font-size: 14.5px;
         color: var(--text-mid);
-        padding: 5px 0 5px 22px;
+        padding: 6px 0 6px 22px;
         position: relative;
-        border-bottom: 1px solid var(--rule-light);
+        border-bottom: 1px solid var(--rule);
         margin-bottom: 0;
         line-height: 1.5;
       }
       .prereq-list li:last-child { border-bottom: none; }
-      .prereq-list li::before { content: "→"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+      .prereq-list li::before {
+        content: ">";
+        position: absolute;
+        left: 0;
+        font-family: var(--mono);
+        color: var(--accent);
+        font-weight: 600;
+      }
 
       footer {
         max-width: 1080px;
         margin: 52px auto 0;
         padding: 20px 0;
         border-top: 1px solid var(--rule);
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: var(--mono);
         font-size: 12px;
         color: var(--text-soft);
       }
@@ -447,19 +491,16 @@
         .page { grid-template-columns: 1fr; padding: 40px 0 72px; }
         .toc { display: none; }
         .topnav { padding: 16px 0; }
+        .doc td:first-child { white-space: normal; }
       }
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
 
     <nav class="topnav" aria-label="Site navigation">
-      <a class="back-link" href="./index.html">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-          <line x1="17" y1="7" x2="7" y2="17" /><polyline points="17 17 7 17 7 7" />
-        </svg>
-        Back to portfolio
-      </a>
-      <span class="nav-label">03 — Integration Tutorials</span>
+      <a class="back-link" href="./index.html">← Portfolio</a>
+      <span class="nav-label">06 — Integration Tutorials</span>
     </nav>
 
     <div class="page">
@@ -482,12 +523,12 @@
         </ul>
       </aside>
 
-      <main>
+      <main id="main">
 
         <header class="page-header">
           <span class="page-eyebrow">Technical Writing Portfolio — Tamar Auber</span>
           <h1>The Integration Map</h1>
-          <p>Two samples from a master playbook: a high-level "big picture" intro for new developers and a step-by-step setup guide with a foolproof troubleshooting section.</p>
+          <p>Two samples from a master playbook: a high-level "big picture" intro for new developers and a step-by-step setup guide with a troubleshooting section organized by cause.</p>
         </header>
 
         <div class="portfolio-note" role="note">
@@ -507,11 +548,10 @@
               <div class="doc-meta-item">Doc type: <span>Conceptual overview</span></div>
             </div>
 
-            <!-- FIX 1: Learning Objective -->
             <p><strong>Learning objective:</strong> Understand how ARIA connects a chat interface to a workflow automation platform — so users can trigger backend processes through conversation and get results without leaving their chat window.</p>
 
-            <h4>Prerequisites</h4>
-            <p>While not required to build or understand the integration, familiarity with the following concepts is helpful:</p>
+            <h4>Helpful background</h4>
+            <p>You don't need these to build or understand the integration, but familiarity with them helps:</p>
             <ul class="prereq-list">
               <li><strong>APIs</strong> — Systems exchange data through structured requests and responses</li>
               <li><strong>Webhooks</strong> — Event-driven HTTP requests that push data between systems</li>
@@ -520,15 +560,13 @@
             </ul>
             <p>Technical implementation details — including specific field names, values, and step-by-step configuration instructions — are covered in subsequent sections.</p>
 
-            <!-- FIX 2: What This Integration Accomplishes -->
             <h3 id="overview-what">What This Integration Accomplishes</h3>
             <p>ARIA connects HelixBot (a conversational AI platform) to FlowEngine (a workflow automation platform). A user types a request in chat, HelixBot collects what it needs, and FlowEngine runs the workflow — all without the user touching another system.</p>
 
             <div class="callout callout-note">
-              <p><em class="callout-icon">ℹ</em><strong>Key capability:</strong> Users interact with enterprise systems and workflows using natural language in HelixBot, without leaving the chat window.</p>
+              <p><em class="callout-icon" aria-hidden="true">ℹ</em><strong>Key capability:</strong> Users interact with enterprise systems and workflows using natural language in HelixBot, without leaving the chat window.</p>
             </div>
 
-            <!-- FIX 3: How systems work together -->
             <h3 id="overview-how">How HelixBot and FlowEngine Work Together</h3>
             <p><strong>HelixBot</strong> is the front end. It interprets what the user is asking, asks any follow-up questions, and packages the user's input into a structured request.</p>
             <p><strong>FlowEngine</strong> is the back end. It receives that request, runs the workflow, and sends the result back to HelixBot to display in chat.</p>
@@ -552,7 +590,6 @@
                   <td>Information Gathering</td>
                   <td>HelixBot collects required data through conversation or user profile data. The user answers any prompted questions. These answers become the input parameters sent to FlowEngine.</td>
                 </tr>
-                <!-- FIX 4: Row 3 — outbound mapping script -->
                 <tr>
                   <td>3</td>
                   <td>Data Transformation</td>
@@ -577,7 +614,7 @@
             </table>
 
             <div class="callout callout-note">
-              <p><em class="callout-icon">⏱</em><strong>Total time:</strong> Typically 5–15 seconds from start to finish.</p>
+              <p><em class="callout-icon" aria-hidden="true">⏱</em><strong>Total time:</strong> Typically 5–15 seconds from start to finish.</p>
             </div>
 
             <h3 id="overview-build">What You Can Build</h3>
@@ -594,7 +631,7 @@
             <p><strong>In this version:</strong> Clone and customize the pre-built templates for each new use case. Each intent in HelixBot corresponds to a workflow in FlowEngine. Most implementations take 30–60 minutes per workflow, and the consistent template structure ensures every integration behaves the same way.</p>
 
             <div class="callout callout-note">
-              <p><em class="callout-icon">→</em><strong>Next:</strong> Gather What You Need — Collect all credentials, API tokens, and endpoints before beginning configuration.</p>
+              <p><em class="callout-icon" aria-hidden="true">→</em><strong>Next:</strong> Gather What You Need — Collect all credentials, API tokens, and endpoints before beginning configuration.</p>
             </div>
 
           </div>
@@ -613,11 +650,9 @@
               <div class="doc-meta-item">Estimated time: <span>15–20 minutes</span></div>
             </div>
 
-            <!-- FIX 5: Part 2 opening -->
-            <p>At this point, HelixBot can send requests to the ITSM Platform. This guide sets up the other direction — so the ITSM Platform can send data back to HelixBot. You'll work entirely inside the ITSM Platform interface. Before you start, confirm that the prior setup step (committing the Helix update set) is complete.</p>
+            <p>At this point, HelixBot can send requests to the ITSM Platform. This guide sets up the other direction — so the ITSM Platform can send data back to HelixBot. You'll work entirely inside the ITSM Platform interface.</p>
 
             <h4>Prerequisites</h4>
-            <!-- FIX 6: Prerequisites list -->
             <ul class="prereq-list">
               <li>HelixBot configuration completed</li>
               <li>Helix update set committed in the ITSM Platform</li>
@@ -628,12 +663,11 @@
             <h3 id="itsm-s1">Step 1: Log In to the ITSM Platform</h3>
 
             <div class="callout callout-warn">
-              <p><em class="callout-icon">⚠</em><strong>Important:</strong> All steps below happen in the ITSM Platform — not in HelixBot.</p>
+              <p><em class="callout-icon" aria-hidden="true">⚠</em><strong>Important:</strong> All steps below happen in the ITSM Platform — not in HelixBot.</p>
             </div>
 
             <ol class="steps">
-              <li>Open your ITSM Platform instance in a browser.</li>
-              <li>URL format: <code>https://[instance].itsm-platform.com</code></li>
+              <li>Open your ITSM Platform instance in a browser: <code>https://{instance}.itsm-platform.com</code></li>
               <li>Log in with your ITSM Platform admin credentials.</li>
             </ol>
 
@@ -661,12 +695,12 @@
             </table>
 
             <div class="callout callout-warn">
-              <p><em class="callout-icon">⚠</em><strong>Don't forget the trailing slash.</strong> A missing trailing slash is the single most common cause of connection failure.</p>
+              <p><em class="callout-icon" aria-hidden="true">⚠</em><strong>Don't forget the trailing slash.</strong> A missing trailing slash is the single most common cause of connection failure.</p>
               <p>✅ Correct: <code>https://acme.helix-platform.com/</code><br>
               ❌ Incorrect: <code>https://acme.helix-platform.com</code></p>
             </div>
 
-            <p>Click <strong>Save</strong> or <strong>Submit</strong>.</p>
+            <p>Click <strong>Save</strong> (labeled <strong>Submit</strong> in some versions).</p>
             <div class="checkpoint">Settings should save without errors.</div>
 
             <h3 id="itsm-s4">Step 4: Open the Helix Integration Hub Module</h3>
@@ -675,19 +709,19 @@
               <li>Click <strong>Helix &gt; Integration Hub</strong>.</li>
             </ol>
 
-            <div class="checkpoint">You should see a screen with a <strong>Test Connection</strong> or <strong>Test/Refresh Connection</strong> button.</div>
+            <div class="checkpoint">You should see a screen with a&nbsp;<strong>Test Connection</strong>&nbsp;or&nbsp;<strong>Test/Refresh Connection</strong>&nbsp;button.</div>
 
             <h3 id="itsm-s5">Step 5: Test the Connection</h3>
             <ol class="steps">
-              <li>Click the <strong>Test/Refresh Connection</strong> button.</li>
+              <li>Click <strong>Test Connection</strong> (labeled <strong>Test/Refresh Connection</strong> in some versions).</li>
               <li>Wait 5–10 seconds while the ITSM Platform sends a test request to HelixBot.</li>
               <li>Look for a success message in the interface.</li>
             </ol>
 
             <div class="callout callout-check">
-              <p><em class="callout-icon">✅</em><strong>Bidirectional connection complete.</strong> You have successfully configured both directions:</p>
+              <p><em class="callout-icon" aria-hidden="true">✅</em><strong>Bidirectional connection complete.</strong> You have successfully configured both directions:</p>
               <p>✅ HelixBot → ITSM Platform<br>✅ ITSM Platform → HelixBot</p>
-              <p>The two systems can now communicate bidirectionally for ticket creation and data exchange.</p>
+              <p>The two systems can now exchange data in both directions for ticket creation.</p>
             </div>
 
             <h3 id="itsm-trouble">Troubleshooting</h3>
@@ -696,7 +730,7 @@
               <div class="trouble-cause">Connection test fails — Missing roles <span class="cause-tag">Cause: integration user missing required roles</span></div>
               <div class="trouble-body">
                 <ul>
-                  <li>Verify all three Helix roles were assigned to the integration user.</li>
+                  <li>Verify all three Helix roles (<code>helix_agent</code>, <code>helix_admin</code>, and <code>helix_integration</code>) are assigned to the integration user.</li>
                   <li>Confirm the user also has the <code>itil</code> role if required by your instance configuration.</li>
                   <li>Verify <strong>Password needs reset</strong> is unchecked on the user record.</li>
                 </ul>
@@ -770,7 +804,7 @@
             </div>
 
             <div class="callout callout-note">
-              <p><em class="callout-icon">→</em><strong>Next:</strong> Provision Users from the ITSM Platform — Import your user base into HelixBot.</p>
+              <p><em class="callout-icon" aria-hidden="true">→</em><strong>Next:</strong> Provision Users from the ITSM Platform — Import your user base into HelixBot.</p>
             </div>
 
           </div>
@@ -780,7 +814,7 @@
     </div>
 
     <footer>
-      <p>Integration tutorial samples use generalized names and identifiers for portfolio purposes. — Tamar Auber Technical Writing Portfolio</p>
+      <p>Integration tutorial samples use generalized names and identifiers for portfolio purposes.</p>
     </footer>
 
   </body>
